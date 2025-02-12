@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_CANDIDATES 10
+
+typedef struct {
+    char name[50];
+    int votes;
+} Candidate;
+
+void initializeCandidates(Candidate candidates[], int numCandidates) {
+    for (int i = 0; i < numCandidates; i++) {
+        printf("Enter the name of candidate %d: ", i + 1);
+        scanf("%s", candidates[i].name);
+        candidates[i].votes = 0;
+    }
+}
+
+void displayCandidates(Candidate candidates[], int numCandidates) {
+    printf("Candidates:\n");
+    for (int i = 0; i < numCandidates; i++) {
+        printf("%d. %s\n", i + 1, candidates[i].name);
+    }
+}
+
+void vote(Candidate candidates[], int numCandidates) {
+    int choice;
+    printf("Enter the number of your chosen candidate: ");
+    scanf("%d", &choice);
+
+    if (choice >= 1 && choice <= numCandidates) {
+        candidates[choice - 1].votes++;
+        printf("You have voted for %s.\n", candidates[choice - 1].name);
+    } else {
+        printf("Invalid choice. Please select a valid candidate.\n");
+    }
+}
+
+void displayResults(Candidate candidates[], int numCandidates) {
+    printf("Voting Results:\n");
+    for (int i = 0; i < numCandidates; i++) {
+        printf("%s: %d votes\n", candidates[i].name, candidates[i].votes);
+    }
+}
+
+int main() {
+    int numCandidates;
+    printf("Enter the number of candidates: ");
+    scanf("%d", &numCandidates);
+
+    if (numCandidates < 1 || numCandidates > MAX_CANDIDATES) {
+        printf("Invalid number of candidates. Please choose between 1 and %d candidates.\n", MAX_CANDIDATES);
+        return 1;
+    }
+
+    Candidate candidates[MAX_CANDIDATES];
+    initializeCandidates(candidates, numCandidates);
+
+    while (1) {
+        int choice;
+        printf("\nMenu:\n");
+        printf("1. Display Candidates\n");
+        printf("2. Vote\n");
+        printf("3. Display Results\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                displayCandidates(candidates, numCandidates);
+                break;
+            case 2:
+                vote(candidates, numCandidates);
+                break;
+            case 3:
+                displayResults(candidates, numCandidates);
+                break;
+            case 4:
+                printf("Exiting the program.\n");
+                return 0;
+            default:
+                printf("Invalid choice. Please select a valid option.\n");
+        }
+    }
+
+    return 0;
+}
